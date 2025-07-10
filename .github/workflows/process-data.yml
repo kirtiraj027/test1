@@ -1,0 +1,23 @@
+name: Process Sample Data
+
+on:
+  workflow_run:
+    workflows: ["Generate Sample Data"]
+    types:
+      - completed
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifact from previous workflow
+        uses: actions/download-artifact@v4
+        with:
+          name: sample-data
+
+      - name: Show content of the data
+        run: cat sample_data.txt
