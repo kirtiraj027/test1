@@ -1,0 +1,24 @@
+name: Process Sample Data
+
+# Automatically triggered when "Generate Sample Data" finishes
+on:
+  workflow_run:
+    workflows: ["Generate Sample Data"]
+    types:
+      - completed
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: sample-data
+
+      - name: Print file contents
+        run: cat sample_data.txt
