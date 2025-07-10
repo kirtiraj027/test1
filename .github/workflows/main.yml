@@ -1,0 +1,27 @@
+name: Generate Sample Data
+
+# When to run this workflow
+on:
+  push:
+    branches: [main]  # Runs when code is pushed to the main branch
+  workflow_dispatch:   # Also lets you run it manually from the Actions tab
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest  # Runs on GitHub's Linux server
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create sample data file
+        run: |
+          mkdir output
+          echo "Timestamp: $(date)" > output/sample_data.txt
+          echo "Random Number: $RANDOM" >> output/sample_data.txt
+
+      - name: Upload file as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sample-data
+          path: output/sample_data.txt
